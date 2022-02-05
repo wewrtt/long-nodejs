@@ -1,0 +1,21 @@
+<div class="mt-4">
+    <h3> Đăng nhập</h3>
+    <!--hàm trong action trỏ đến file routes và file course để định nghĩa tuyến đường và 
+    phương thức-->
+    <form method="POST" action="/auth/checkLogin">
+        {{#each errs}}
+        <div class="alert alert-danger" role="alert">
+            {{this}}
+        </div>
+         {{/each}}
+        <div class="form-group">
+            <label for="name">Tài khoản</label>
+            <input type="text" name="tk" class="form-control" id="mk" value={{values.tk}}  >
+        </div>
+        <div class="form-group">
+            <label for="description">Mật Khẩu</label>
+            <input type="text" name="mk" class="form-control" id="mk" value={{values.mk}}  >
+        </div>
+        <button type="submit" class="btn btn-primary">login</button>
+    </form>
+</div>

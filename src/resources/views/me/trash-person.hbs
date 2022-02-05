@@ -1,0 +1,119 @@
+<form method="post" action='/person/handle_restore_form'>
+  <table class="table mt-4">
+    <thead>
+      <div>
+        <h3>Dạnh sách user bị xóa</h3>
+        <a href="/me/stored/person">Danh sách user ({{countPerson}})</a>
+      </div>
+      <div class="mt-4 d-flex d-flex align-items-center">
+        <div class="form-check" style="margin: 0 16px">
+          <input class="form-check-input" type="checkbox" value="" id="Check_All">
+          <label class="form-check-label" for="Check_All">
+            chọn tất cả
+          </label>
+        </div>
+        <button class="btn btn-sm btn-primary" id="btn_restore_checkBox" disabled>Khôi phục</button>
+      </div>
+
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">#</th>
+        <th scope="col">Tên </th>
+        <th scope="col">age</th>
+        <th scope="col">gender</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+
+      </tr>
+    </thead>
+    <tbody>
+      {{#each persons}}
+      <tr>
+        <td><input class="form-check-input Check_iteams" name="personIDs[]" type="checkbox" value="{{this._id}}"></td>
+        <th scope="row">{{ sum @index 1}}</th>
+        <td>{{this.name}}</td>
+        <td>{{this.age}}</td>
+        <td>{{this.gender}}</td>
+
+        <td><a href="" id="id_test" class="btn btn-link btn-restore-person" data-id="{{this._id}}">restore</a></td>
+        <td><a href="" data-toggle="modal" data-target="#Modal-delete-person" data-id="{{this._id}}">xóa</a></td>
+      </tr>
+      {{else}}
+      <tr>
+        <td colspan="5">bạn chưa đăng ký. <a href="/person/create">đăng ký ngay</a> </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</form>
+<!-- Modal -->
+<div class="modal" tabindex="-1" role="dialog" id="Modal-delete-person">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Xóa user</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>bạn có chắc muốn xóa ko?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" id="btn-delete-person">Xóa</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--form submit-->
+<form id="person-form" method="post"></form>
+<form id="person-form-restore" method="post"></form>
+
+<script>
+  var person_id, person_id_restore;
+  var person_form, person_form_restore;
+  var btn_delete_person, btn_restore_person;
+  document.addEventListener("DOMContentLoaded", function () {
+    $('#Modal-delete-person').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget);
+      var id = button.data('id');
+      person_id = id;
+    })
+    person_form = document.forms["person-form"];
+    btn_delete_person = document.getElementById("btn-delete-person");
+    btn_delete_person.onclick = function () {
+      person_form.action = '/person/' + person_id + '/delete' + '?_method=DELETE';
+      person_form.submit();
+    }
+
+    person_form_restore = document.getElementById("person-form-restore");
+    btn_restore_person = $('.btn-restore-person');
+    btn_restore_person.click(function (e) {
+      e.preventDefault();
+      var id_restore = $(this).data('id');
+      person_form_restore.action = "/person/" + id_restore + "/restore" + "?_method=PATCH";
+      person_form_restore.submit();
+    })
+    // check box
+    var Check_All = $('#Check_All');
+    var Check_Iteams = $('.Check_iteams');
+    var btn_restore_checkBox = $('#btn_restore_checkBox');
+    Check_All.change(function () {
+      var ischeck = $(this).prop('checked');
+      Check_Iteams.prop('checked', ischeck);
+      render_btn_check();
+    })
+    Check_Iteams.change(function () {
+      var ischeck = Check_Iteams.length === $('.Check_iteams:checked').length;
+      Check_All.prop('checked', ischeck);
+      render_btn_check();
+    })
+    //undisaple btn check_box
+    function render_btn_check() {
+      var countChecked = $('.Check_iteams:checked').length;
+      if (countChecked > 0) btn_restore_checkBox.attr('disabled', false);
+      else btn_restore_checkBox.attr('disabled', true);
+    }
+  })
+</script>

@@ -1,0 +1,28 @@
+<div class="mt-4">
+    <h3> Đăng Ký</h3>
+    <!--hàm trong action trỏ đến file routes và file course để định nghĩa tuyến đường và 
+    phương thức-->
+    <form method="POST" action="/person/store">
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" name="name" class="form-control" id="name" placeholder="Nhập từ khóa....">
+        </div>
+        <div class="form-group">
+            <label for="description">Age</label>
+            <input type="text" name="age" class="form-control" id="age" placeholder="Nhập từ khóa....">
+        </div>
+        <div class="form-group">
+            <label for="description">Gender</label>
+
+            <select class="custom-select" id="gender" name="gender">
+                <option selected>chọn giới tính</option>
+                <option value="Nam" type="text">Nam</option>
+                <option value="Nữ"  type="text">Nữ</option>
+              
+            </select>
+        </div>
+
+        <br>
+        <button type="submit" class="btn btn-primary">Đăng ký</button>
+    </form>
+</div>

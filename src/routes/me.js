@@ -1,0 +1,11 @@
+const express = require('express');
+const routes = express.Router();
+const MeControllers = require('../app/cotrollers/MeControllers');
+//routes.get('/create', CourseControllers.create);
+routes.post('/login', MeControllers.checkLogin);
+routes.get('/login', MeControllers.login);
+routes.get('/stored/courses', MeControllers.store);
+routes.get('/trash/courses', MeControllers.trash);
+routes.get('/stored/person', MeControllers.user);
+routes.get('/trash/person', MeControllers.userTrash);
+module.exports = routes;

@@ -1,0 +1,22 @@
+<div class="mt-4">
+    <h3> Sửa thông tin</h3>
+    <!--hàm trong action trỏ đến file routes và file course để định nghĩa tuyến đường và 
+    phương thức-->
+    <form method="POST" action="/person/{{person._id}}?_method=PUT"> 
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text"class="form-control" id="name"  name="name" value="{{person.name}} ">
+        </div>
+        <div class="form-group">
+            <label for="description">Age</label>
+            <input type="text" name="age"class="form-control" id="age" value="{{person.age}}">
+        </div>
+        <div class="form-group">
+            <label for="description">Gender</label>
+            <input type="text" name="gender"class="form-control" id="gender" value="{{person.gender}}">
+        </div>
+        
+       
+        <button type="submit" class="btn btn-primary">sửa</button>
+    </form>
+</div>

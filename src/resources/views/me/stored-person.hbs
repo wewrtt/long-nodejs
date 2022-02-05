@@ -1,0 +1,159 @@
+<form  method="post" name="controll-form" action="/person/handle_form_action">
+  <table class="table mt-4">
+    <thead>
+      <div>
+        <h3>danh sách user </h3>
+        <a href="/me/trash/person">Thùng rác ({{countDeletedPerson}})</a>
+      </div>
+      <div class="d-flex mt-4 align-items-center">
+        <div class="form-check " style="margin:0 16px">
+          <input class="form-check-input" type="checkbox" value="" id="Checbox-All">
+          <label class="form-check-label " for="Checbox-All">
+            chọn tất cả
+          </label>
+        </div>
+        <button class="btn btn-primary btn-sm" id="btn-submit-check-box" data-toggle="modal"
+          data-target="#Modal-delete-all" disabled>Chuyển đến thùng rác</button>
+      </div>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">#</th>
+        <th scope="col">Tên 
+          {{{sortPerson "name" _sortPerson}}}</th>
+        <th scope="col">age
+          {{{sortPerson "age" _sortPerson}}}</th>
+        <th scope="col">gender</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+
+      </tr>
+    </thead>
+    <tbody>
+      {{#each persons}}
+      <tr>
+        <td><input class="form-check-input CheckBox-Items" type="checkbox" value="{{this._id}}" 
+        name="PersonIDs[]"  ></td>
+        
+        <th scope="row">{{ sum @index 1}}</script></th>
+        <td>{{this.name}}</td>
+        <td>{{this.age}}</td>
+        <td>{{this.gender}}</td>
+
+        <td><a href="/person/{{this._id}}/edit">sửa</a></td>
+        <td><a href="" data-toggle="modal" data-target="#Modal-delete-person" data-id="{{this._id}}">
+          Chuyển đến thùng rác</a></td>
+      </tr>
+      {{else}}
+      <tr>
+        <td colspan="5">bạn chưa đăng ký. <a href="/person/create">đăng ký ngay</a> </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</form>
+
+<!-- Modal -->
+<div class="modal" tabindex="-1" role="dialog" id="Modal-delete-person">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Xóa user</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>bạn có chắc muốn chuyển user đến thùng rác ko?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" id="btn-delete-person">có</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal checkbox-->
+<div class="modal" tabindex="-1" role="dialog" id="Modal-delete-all">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Xóa user đc chọn</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>bạn có chắc muốn chuyển  các user đến thùng rác ko?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" id="btn-delete-person-all">có</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+      </div>
+    </div>
+  </div>
+</div>
+{{!-- delete--}}
+<form id="person-form" method="post"></form>
+
+<script>
+  var person_id;
+  var person_form;
+  var controll_form;
+  var btn_delete_person;
+  var CheckBox_All;
+  var CheckBox_Items;
+  var btn_submit_checkbox ;
+  var btn_modal_checkbox;
+  document.addEventListener("DOMContentLoaded", function () {
+    $('#Modal-delete-person').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget);
+      var id = button.data('id');
+      person_id = id;
+    })
+    
+    var btn_delete_person = document.getElementById('btn-delete-person');
+    
+    //btn_deleteaction
+    btn_delete_person = document.getElementById('btn-delete-person');
+    btn_delete_person.onclick = function () {
+
+      person_form = document.forms['person-form'];
+      person_form.action = '/person/' + person_id + '?_method=delete';
+      person_form.submit();
+    }
+    //check box action
+     CheckBox_All = $('#Checbox-All');
+     CheckBox_Items = $('.CheckBox-Items');
+     btn_submit_checkbox = $('#btn-submit-check-box');
+    //check-all
+    CheckBox_All.change(function () {
+      var is_checked = $(this).prop('checked');
+      CheckBox_Items.prop('checked', is_checked);
+      render_button();
+    })
+    //check-Items
+    CheckBox_Items.change(function () {
+      var is_checked = CheckBox_Items.length === $('.CheckBox-Items:checked').length;
+      CheckBox_All.prop('checked', is_checked);
+      render_button();
+    })
+    //undisable for button
+    function render_button() {
+      var Check_item = $('.CheckBox-Items:checked').length;
+      if (Check_item > 0) btn_submit_checkbox.attr('disabled', false);
+      else btn_submit_checkbox.attr('disabled', true);
+    }
+    // model delete- all
+    controll_form=document.forms["controll-form"];
+    btn_modal_checkbox=$('#btn-delete-person-all');
+    btn_submit_checkbox.click(function (event){
+      event.preventDefault();
+      btn_modal_checkbox.click(function (event){
+        controll_form.submit();
+      })
+    })
+
+
+  })
+</script>

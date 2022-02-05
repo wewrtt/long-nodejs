@@ -1,0 +1,14 @@
+<div class="container">
+    <p class="p-class" data-id="1">If you click on me, I will disappear.</p>
+    <p class="p-class" data-id="2">Click me away!</p>
+    <p class="p-class" data-id="3">Click me too!</p>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded",  ()=>{
+        const a=$('.p-class');
+        a.click( function(){
+            const b=$(this).data('id');
+            if(b==1) a.hide();
+        })
+    })
+</script>

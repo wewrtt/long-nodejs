@@ -1,0 +1,24 @@
+<div class="mt-4">
+    <h3> Chi tiết khóa học</h3>
+    <!--hàm trong action trỏ đến file routes và file course để định nghĩa tuyến đường và 
+    phương thức-->
+    <form method="post" action="/courses/{{course._id}}?_method=put"> 
+        <div class="form-group">
+            <label for="descripsion">Tên khóa học</label>
+            <input type="text" name="name" value="{{course.name}}"   class="form-control" id="name" placeholder="Nhập từ khóa....">
+        </div>
+         <div class="form-group">
+            <label for="description">Mô tả khóa học</label>
+            <input type="text" name="description" value="{{course.description}}"  class="form-control" id="description" placeholder="Nhập từ khóa....">
+        </div>
+         <div class="form-group">
+            <label for="descripsion">VideoID</label>
+            <input type="text" name="videoId" value="{{course.videoId}}" class="form-control" id="videoId" placeholder="Nhập từ khóa....">
+        </div>
+         <div class="form-group">
+            <label for="descripsion">Hình ảnh</label>
+            <input type="text" name="image" value="{{course.image}}" class="form-control" id="image" placeholder="Nhập từ khóa....">
+        </div>
+        <button type="submit" class="btn btn-primary">sửa khóa học</button>
+    </form>
+</div>
