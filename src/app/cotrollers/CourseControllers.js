@@ -25,7 +25,8 @@ class CourseControllers {
         res.render('courses/create');
     }
     store(req, res, next) {
-        //res.json(req.body);
+        res.json(req.body);
+        return;
         const course = new model(req.body);
         course
             .save()

@@ -19,7 +19,8 @@ class StieControllers {
                 var x= 3;//x
                 var start= (n-1)*x;
                 var end=n*x;
-                res.render('home', { courses:courses.slice(start, end)});
+                //res.render('home', { courses:courses.slice(start, end)});
+                res.render('home',{ courses});
             })
             .catch(next);
         //viet kieu if else

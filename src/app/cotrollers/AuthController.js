@@ -8,7 +8,9 @@ class AuthController{
         res.redirect('/auth/login');
     }
     async checkLogin(req,res,next){
-        console.log(req.body)
+        console.log(req.body) 
+        res.json(req.body);
+        return;
         var tk= req.body.tk;
         var mk= req.body.mk;
         var user= await User.findOne({tk:tk});
